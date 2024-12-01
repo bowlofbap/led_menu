@@ -2,8 +2,6 @@ from .constants import BLUETOOTH_DIRECTIONS
 from .Direction import Direction
 from .ControllerMap import ControllerMap
 from .BoardHandler import BoardHandler
-from .DisplayHandler import DisplayHandler
-from .BoardHandler import BoardHandler
 from .Menu import Menu
 import pygame
 import math
@@ -54,6 +52,7 @@ class ControllerHandler:
         self.clear_screen()
         pygame.quit()
         sys.exit()
+        #TODO: gpio cleanup?
 
     def _process_direction_down(self, input):
         if input == Direction.LEFT.name or input == Direction.RIGHT.name:
