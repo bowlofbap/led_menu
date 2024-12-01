@@ -2,9 +2,9 @@ from .constants import BLUETOOTH_DIRECTIONS
 from .Direction import Direction
 from .ControllerMap import ControllerMap
 from .BoardHandler import BoardHandler
-from .TetrisGame import TetrisGame
-from .PreviewHandler import PreviewHandler
+from .DisplayHandler import DisplayHandler
 from .BoardHandler import BoardHandler
+from .Menu import Menu
 import pygame
 import math
 import sys
@@ -16,6 +16,7 @@ class ControllerHandler:
         self._joystick = None
         self._running = True
         self._board_handler = BoardHandler()
+        self._menu - Menu()
 
     #called externally to kick off listening for inputs
     def start(self):
@@ -24,7 +25,7 @@ class ControllerHandler:
         joystick_detected = False
         while joystick_detected==False:
             print("Waiting for controller...")
-            self._preview_handler.show_text("Waiting for controller...")
+            self._display_handler.scroll_text("Waiting for controller...")
             pygame.joystick.quit()
             pygame.joystick.init()
             try:
@@ -32,10 +33,8 @@ class ControllerHandler:
                 joystick.init() # init instance
                 self._joystick = joystick
                 joystick_detected = True
-                print("controller found")
 
             except pygame.error:
-                print("not enough joystick found.")
                 joystick_detected = False
         self.loop()
 
@@ -81,7 +80,7 @@ class ControllerHandler:
 
     def clear_screen(self):
         self._board_handler.turn_off()
-        self._preview_handler.clear()
+        self._display_handler.clear()
 
     def _convert_bt_to_direction_and_motion(self, raw_input_x, raw_input_y):
         # Handle release state
