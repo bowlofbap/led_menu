@@ -1,5 +1,5 @@
 from ledsnake.GameHandler import GameHandler
-import constants
+from .constants import *
 
 class SnakeWebHandler:
     processHandler = None
@@ -12,5 +12,5 @@ class SnakeWebHandler:
 
     def play_snake_game(self, ai, multiplayer):
         self.processHandler.kill_process()
-        gameHandler = GameHandler(constants.WIDTH, constants.HEIGHT, ai = ai, multiplayer = multiplayer, debug = False)
+        gameHandler = GameHandler(WIDTH, HEIGHT, ai = ai, multiplayer = multiplayer, debug = False)
         self.processHandler.start_process(lambda: gameHandler.startGame(), {})

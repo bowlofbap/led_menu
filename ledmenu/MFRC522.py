@@ -364,6 +364,7 @@ class MFRC522:
       print("Sector "+str(blockAddr)+" "+str(backData))
       text = bytes(backData).decode('utf-8').strip()  # Strip removes padding
       print(f"Sector {blockAddr}: {text}")
+      return text
 
   def MFRC522_Write(self, blockAddr, writeData):
     buff = []
