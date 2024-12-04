@@ -2,9 +2,9 @@ from .constants import BLUETOOTH_DIRECTIONS
 from .Direction import Direction
 from .ControllerMap import ControllerMap
 from .BoardHandler import BoardHandler
-from .TetrisGame import TetrisGame
-from .PreviewHandler import PreviewHandler
-from .BoardHandler import BoardHandler
+from .DisplayHandler import DisplayHandler
+from .Options import Options
+from .Menu import Menu
 import pygame
 import math
 import sys
@@ -12,10 +12,10 @@ import sys
 class ControllerHandler:
     #abstraction to handle inputs and gameloop and wraps around the game itself
 
-    def __init__(self, game):
+    def __init__(self):
         self._joystick = None
         self._running = True
-        self._board_handler = BoardHandler()
+        self._menu = Menu(list(Options), BoardHandler(), DisplayHandler())
 
     #called externally to kick off listening for inputs
     def start(self):
@@ -49,35 +49,20 @@ class ControllerHandler:
                     if motion == "press":
                         self._process_direction_down(direction)
                 elif event.type == pygame.JOYBUTTONDOWN:
-                    button = event.button        
-                    self._process_button_down(button)
+                    controller_button = ControllerMap(event.button)
+                    self._process_button_down(controller_button)
             self._board_handler.update()
         self.clear_screen()
         pygame.quit()
         sys.exit()
 
-    def _process_direction_down(self, input):
-        if input == Direction.LEFT.name or input == Direction.RIGHT.name:
-            self._game.press_down_direction(input)
-        elif input == Direction.DOWN.name:
-            self._game.set_quick_drop(True)
-        elif input == Direction.UP.name:
-            self._game.fast_drop()
+    def _process_direction_down(self, direction):
+        if direction == Direction.LEFT or direction == Direction.RIGHT:
+            self._menu.navigate(direction)
 
-    def _process_button_down(self, input):
-        if input == ControllerMap.L.value:
+    def _process_button_down(self, controller_button):
+        if controller_button == ControllerMap.A:
             self._game.rotate_piece(-1)
-        elif input == ControllerMap.R.value:
-            self._game.rotate_piece(1)
-        elif input == ControllerMap.Y.value:
-            #self._game.rotate_piece(2)
-            print("180 turn not implemented yet")
-        elif input == ControllerMap.START.value:
-            self._running = False
-        elif input == ControllerMap.SELECT.value:
-            self._game.restart()
-        elif input == ControllerMap.X.value:
-            self._game.swap_piece()
 
     def clear_screen(self):
         self._board_handler.turn_off()
@@ -86,11 +71,7 @@ class ControllerHandler:
     def _convert_bt_to_direction_and_motion(self, raw_input_x, raw_input_y):
         # Handle release state
         if abs(raw_input_y) <= 0.1:
-            # Return the last known direction for button release
-            #potentially throwing error somehow if up is handled before a down press? maybe throw
-            released_direction = self._last_direction
-            self._last_direction = None  # Reset after handling release
-            return released_direction, "release"
+            return None, "release"
 
         # Calculate which direction matches the input for button down presses
         closest_direction = None
@@ -104,8 +85,4 @@ class ControllerHandler:
                 closest_direction = direction
                 smallest_distance = distance
 
-        # Update the last known direction if a new direction is found
-        if closest_direction:
-            self._last_direction = closest_direction
-
-        return closest_direction, "press"
+        return Direction[closest_direction], "press"
