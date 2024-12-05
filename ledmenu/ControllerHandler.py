@@ -19,8 +19,10 @@ class ControllerHandler:
 
     #called externally to kick off listening for inputs
     def start(self):
+        print("started")
         pygame.init()
         pygame.joystick.init()
+        print("inited")
         joystick_detected = False
         while joystick_detected==False:
             print("Waiting for controller...")
