@@ -19,7 +19,8 @@ class ControllerHandler:
 
     #called externally to kick off listening for inputs
     def start(self):
-        pygame.init()
+        successes, failures = pygame.init()
+        print(f"Pygame initialized: {successes} successes and {failures} failures")
         pygame.joystick.init()
         joystick_detected = False
         while joystick_detected==False:
