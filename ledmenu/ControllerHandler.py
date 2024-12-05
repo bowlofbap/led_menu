@@ -19,10 +19,8 @@ class ControllerHandler:
 
     #called externally to kick off listening for inputs
     def start(self):
-        print("started")
         pygame.init()
         pygame.joystick.init()
-        print("inited")
         joystick_detected = False
         while joystick_detected==False:
             print("Waiting for controller...")
@@ -67,7 +65,7 @@ class ControllerHandler:
             self._game.rotate_piece(-1)
 
     def clear_screen(self):
-        self._board_handler.turn_off()
+        #self._board_handler.turn_off()
         self._preview_handler.clear()
 
     def _convert_bt_to_direction_and_motion(self, raw_input_x, raw_input_y):
