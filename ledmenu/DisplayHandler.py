@@ -17,7 +17,7 @@ class DisplayHandler:
     def write_text(self, msg):
         self.clear()
         with canvas(self._device) as draw:
-            text(draw, (0, 0), msg, font=proportional(LCD_FONT), fill="white")
+            text(draw, (0, 0), msg, font=proportional(TINY_FONT), fill="white")
 
     def clear(self):
         self._device.clear()

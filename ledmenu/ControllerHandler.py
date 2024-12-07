@@ -21,10 +21,9 @@ class ControllerHandler:
     def start(self):
         pygame.init()
         pygame.joystick.init()
-        joystick_detected = True
+        joystick_detected = False
         while joystick_detected==False:
             print("Waiting for controller...")
-            self._preview_handler.scroll_text("Waiting for controller...")
             pygame.joystick.quit()
             pygame.joystick.init()
             try:
@@ -37,6 +36,7 @@ class ControllerHandler:
             except pygame.error:
                 print("not enough joystick found.")
                 joystick_detected = False
+                self._menu._display_handler.scroll_text("Waiting for controller...")
         self.loop()
 
     def loop(self):
@@ -44,7 +44,7 @@ class ControllerHandler:
         while self._running:
             for event in pygame.event.get():
                 if event.type == pygame.JOYAXISMOTION:
-                    axis = event.axis         # Axis number (0 for horizontal, 1 for vertical)
+                    axis = event.axis         # Axis number (0 for horizontal, 1 for vertical)                     
                     position = event.value    # Position on the axis (-1.0 to 1.0)
                     direction, motion = self._convert_bt_to_direction_and_motion(axis, position)
                     if motion == "press":
@@ -62,7 +62,8 @@ class ControllerHandler:
 
     def _process_button_down(self, controller_button):
         if controller_button == ControllerMap.A:
-            self._game.rotate_piece(-1)
+            self._running = False
+            self._menu.select_option()
 
     def clear_screen(self):
         self._menu.clear()

@@ -24,7 +24,7 @@ class Menu:
             self.current_index = (self.current_index - 1) % len(self.options)
         elif direction == Direction.LEFT:
             self.current_index = (self.current_index + 1) % len(self.options)
-        self.show_menu()
+        self.update()
 
     def select_option(self):
         # Return the currently selected option
@@ -38,6 +38,7 @@ class Menu:
             self._snakeWebHandler.play_snake_game(True, False)
         elif current_option == Options.GIFS:
             print("GIFS")
+        print("Selected option")
 
     def _reset_visuals(self):
         self._board_handler.clear()
@@ -46,8 +47,8 @@ class Menu:
     def update(self):
         current_option = self.options[self.current_index]
         self._board_handler.update(current_option)
-        self._display_handler.scroll_text(current_option.value)
+        self._display_handler.write_text(current_option.value)
 
     def clear(self):
-        self._board_handler.clear()
+        self._board_handler.turn_off()
         self._display_handler.clear()
