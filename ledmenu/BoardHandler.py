@@ -51,6 +51,6 @@ class BoardHandler:
         self._pixels.show()
 
     #main update that gets called during the loop to update the screen
-    def update(self):
+    def update(self, option):
         self.clear()
-        self._update_screen()
+        #self._update_screen()

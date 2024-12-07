@@ -19,9 +19,9 @@ class ControllerHandler:
 
     #called externally to kick off listening for inputs
     def start(self):
-        #pygame.init()
+        pygame.init()
         pygame.joystick.init()
-        joystick_detected = False
+        joystick_detected = True
         while joystick_detected==False:
             print("Waiting for controller...")
             self._preview_handler.scroll_text("Waiting for controller...")
@@ -40,6 +40,7 @@ class ControllerHandler:
         self.loop()
 
     def loop(self):
+        self._menu.update()
         while self._running:
             for event in pygame.event.get():
                 if event.type == pygame.JOYAXISMOTION:
@@ -51,7 +52,6 @@ class ControllerHandler:
                 elif event.type == pygame.JOYBUTTONDOWN:
                     controller_button = ControllerMap(event.button)
                     self._process_button_down(controller_button)
-            self._board_handler.update()
         self.clear_screen()
         pygame.quit()
         sys.exit()
@@ -65,8 +65,7 @@ class ControllerHandler:
             self._game.rotate_piece(-1)
 
     def clear_screen(self):
-        #self._board_handler.turn_off()
-        self._preview_handler.clear()
+        self._menu.clear()
 
     def _convert_bt_to_direction_and_motion(self, raw_input_x, raw_input_y):
         # Handle release state

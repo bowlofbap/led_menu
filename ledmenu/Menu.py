@@ -42,3 +42,12 @@ class Menu:
     def _reset_visuals(self):
         self._board_handler.clear()
         self._display_handler.clear()
+
+    def update(self):
+        current_option = self.options[self.current_index]
+        self._board_handler.update(current_option)
+        self._display_handler.scroll_text(current_option.value)
+
+    def clear(self):
+        self._board_handler.clear()
+        self._display_handler.clear()
