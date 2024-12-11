@@ -1,4 +1,4 @@
-from ledsnake.GameHandler import GameHandler
+from ledsnake.ControllerHandler import ControllerHandler
 from .constants import *
 
 class SnakeWebHandler:
@@ -12,5 +12,5 @@ class SnakeWebHandler:
 
     def play_snake_game(self, ai, multiplayer):
         self.processHandler.kill_process()
-        gameHandler = GameHandler(WIDTH, HEIGHT, ai = ai, multiplayer = multiplayer, debug = False)
-        self.processHandler.start_process(lambda: gameHandler.startGame(), {})
+        controller_handler = ControllerHandler(WIDTH, HEIGHT, ai = ai, multiplayer = multiplayer, debug = False)
+        self.processHandler.start_process(lambda: controller_handler.startGame(), {})
