@@ -77,8 +77,7 @@ class ControllerHandler:
             return False
 
     def _process_direction_down(self, direction):
-        if direction == Direction.LEFT or direction == Direction.RIGHT:
-            self._menu.navigate(direction)
+        self._menu.navigate(direction)
 
     def _process_button_down(self, controller_button):
         if controller_button == ControllerMap.A:

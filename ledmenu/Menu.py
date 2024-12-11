@@ -1,7 +1,7 @@
 from typing import List, Optional
 from .BoardHandler import BoardHandler
 from .DisplayHandler import DisplayHandler
-from ._Options import Options
+from .Options import Options
 from .Direction import Direction
 from .SnakeWebHandler import SnakeWebHandler
 from .TetrisWebHandler import TetrisWebHandler

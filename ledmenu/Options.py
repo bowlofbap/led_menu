@@ -18,33 +18,32 @@ class Options(Enum):
         "Snake",
         [
             {
-                "Name": "1P"
+                "Name": "1P",
                 "AI": False,
                 "Multiplayer": False,
             },
             {
-                "Name": "2P"
+                "Name": "2P",
                 "AI": False,
                 "Multiplayer": True,
             },
             {
-                "Name": "AI"
+                "Name": "AI",
                 "AI": True,
                 "Multiplayer": False,
             },
         ],
     )
-    GIFS = 
-    (
+    GIFS = (
         "Gifs",
         [
             {
-                "Name": "Test1"
+                "Name": "Test1",
                 "AI": False,
                 "Multiplayer": False,
             },
             {
-                "Name": "Test2"
+                "Name": "Test2",
                 "AI": False,
                 "Multiplayer": False,
             },
