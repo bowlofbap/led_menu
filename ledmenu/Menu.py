@@ -29,6 +29,8 @@ class Menu:
         
         # Access the current option's settings
         self._option_settings = self._options[self._current_index].option_settings
+        if self._option_setting_index >= len(self._option_settings):
+            self._option_setting_index = 0
         
         # Ensure that _option_setting_index is within bounds of the current option's settings
         if direction == Direction.UP:
