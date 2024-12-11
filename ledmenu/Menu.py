@@ -13,7 +13,7 @@ class Menu:
         self._options = options
         self._current_index = 0 #for left/right
         self._option_setting_index = 0 #for up/down
-        self._option_settings = self._options[0].option_settings
+        self._option_settings = self._options[self._current_index].option_settings
         self._display_handler = _display_handler
         self._board_handler = board_handler
         processHandler = ProcessHandler()
@@ -24,16 +24,17 @@ class Menu:
         # Update the current selection index
         if direction == Direction.RIGHT:
             self._current_index = (self._current_index - 1) % len(self._options)
-            self._option_settings = self._options[0].option_settings
+            self._option_settings = self._options[self._current_index].option_settings
             self._option_setting_index = 0
         elif direction == Direction.LEFT:
             self._current_index = (self._current_index + 1) % len(self._options)
-            self._option_settings = self._options[0].option_settings
+            self._option_settings = self._options[self._current_index].option_settings
             self._option_setting_index = 0
         elif direction == Direction.UP:
-            self._option_setting_index = (self._option_setting_index + 1) % len(self._option_settings)
-        elif direction == Direction.Down:
+            print(self._option_settings_index, self._option_settings)
             self._option_setting_index = (self._option_setting_index - 1) % len(self._option_settings)
+        elif direction == Direction.Down:
+            self._option_setting_index = (self._option_setting_index + 1) % len(self._option_settings)
         self.update()
 
     def select_option(self):
@@ -57,6 +58,7 @@ class Menu:
 
     def update(self):
         current_option = self._options[self._current_index]
+        print((self._option_setting_index + 1) % len(self._option_settings))
         self._board_handler.update(current_option) #TODO: handle this
         self._display_handler.write_text(current_option.option_name + "(" + current_option.option_settings[self._option_setting_index]["Name"] + ")")
 
