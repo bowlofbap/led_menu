@@ -21,20 +21,22 @@ class Menu:
         self._tetrisWebHandler = TetrisWebHandler(processHandler)
 
     def navigate(self, direction):
-        # Update the current selection index
+        # Update the current selection index based on direction
         if direction == Direction.RIGHT:
             self._current_index = (self._current_index - 1) % len(self._options)
-            self._option_settings = self._options[self._current_index].option_settings
-            self._option_setting_index = 0
         elif direction == Direction.LEFT:
             self._current_index = (self._current_index + 1) % len(self._options)
-            self._option_settings = self._options[self._current_index].option_settings
-            self._option_setting_index = 0
-        elif direction == Direction.UP:
-            print(self._option_settings_index, self._option_settings)
-            self._option_setting_index = (self._option_setting_index - 1) % len(self._option_settings)
-        elif direction == Direction.Down:
+        
+        # Access the current option's settings
+        self._option_settings = self._options[self._current_index].option_settings
+        
+        # Ensure that _option_setting_index is within bounds of the current option's settings
+        if direction == Direction.UP:
             self._option_setting_index = (self._option_setting_index + 1) % len(self._option_settings)
+        elif direction == Direction.DOWN:
+            self._option_setting_index = (self._option_setting_index - 1) % len(self._option_settings)
+
+        # Update the display after navigation
         self.update()
 
     def select_option(self):
