@@ -46,8 +46,7 @@ class Menu:
         current_option = self._options[self._current_index]
         current_option_setting = current_option.option_settings[self._option_setting_index]
         self._reset_visuals()
-        self._display_handler.write_text(current_option.value)
-        #self._board_handler.show_graphic(current_option)
+        #TODO: some sort of graphic showing selection?
         if current_option == Options.TETRIS:
             self._tetrisWebHandler.play_tetris_game()
         elif current_option == Options.SNAKE:
