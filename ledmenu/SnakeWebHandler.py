@@ -13,4 +13,4 @@ class SnakeWebHandler:
     def play_snake_game(self, ai, multiplayer):
         self.processHandler.kill_process()
         controller_handler = ControllerHandler(WIDTH, HEIGHT, ai = ai, multiplayer = multiplayer, debug = False)
-        self.processHandler.start_process(lambda: controller_handler.startGame(), {})
+        self.processHandler.start_process(lambda: controller_handler.start_game(), {})
