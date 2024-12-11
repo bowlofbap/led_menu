@@ -13,8 +13,9 @@ class ControllerHandler:
     #abstraction to handle inputs andpo0-gameloop and wraps around the game itself
 
     def __init__(self):
-        self._joystick = None
+        self._joystick_connected = False
         self._running = True
+        self._clock = pygame.time.Clock()
         self._menu = Menu(list(Options), BoardHandler(), DisplayHandler())
 
     #called externally to kick off listening for inputs
@@ -29,7 +30,7 @@ class ControllerHandler:
             try:
                 joystick = pygame.joystick.Joystick(0) # create a joystick instance
                 joystick.init() # init instance
-                self._joystick = joystick
+                self._joystick_connected = True
                 joystick_detected = True
                 print("controller found")
 
@@ -42,6 +43,9 @@ class ControllerHandler:
     def loop(self):
         self._menu.update()
         while self._running:
+            if not self.is_controller_connected():
+                self.clear_screen()
+                continue
             for event in pygame.event.get():
                 if event.type == pygame.JOYAXISMOTION:
                     axis = event.axis         # Axis number (0 for horizontal, 1 for vertical)                     
@@ -52,9 +56,25 @@ class ControllerHandler:
                 elif event.type == pygame.JOYBUTTONDOWN:
                     controller_button = ControllerMap(event.button)
                     self._process_button_down(controller_button)
+            self._clock.tick(30)
         self.clear_screen()
         pygame.quit()
         sys.exit()
+
+    def is_controller_connected(self):
+        joystick_count = pygame.joystick.get_count()
+        if joystick_count > 0 and self._joystick_connected:
+            #joystick exists and connected
+            return True
+        elif joystick_count > 0 and not self._joystick_connected:
+            #joystick is exists but currently not connected
+            joystick = pygame.joystick.Joystick(0)
+            joystick.init()
+            self._joystick_connected = True
+            return True
+        elif joystick_count == 0 and self._joystick_connected:
+            self._joystick_connected = False
+            return False
 
     def _process_direction_down(self, direction):
         if direction == Direction.LEFT or direction == Direction.RIGHT:
